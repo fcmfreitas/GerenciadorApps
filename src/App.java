@@ -1,5 +1,4 @@
-import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.*;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,9 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-
-// Mais informações em: https://docs.oracle.com/javase/tutorial/uiswing/components/table.html#data
-
 public class App {
     private CatalogoAplicativos catApps;
     private CatalogoAplicativosViewModel catAppsVM;
@@ -21,43 +17,116 @@ public class App {
     private JTextField tfPreco;
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
+    private JPanel painelAtual;
+    private JFrame frame;
+
 
     public App(){
+        
         catApps = new CatalogoAplicativos();
-        catApps.loadFromFile();; 
+        catApps.loadFromFile();
+
+        this.frame = new JFrame("Gestão de aplicativos");
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setLayout(new BorderLayout());
+        this.frame.setSize(600, 500);
+        this.painelAtual = painelMenu();
+        this.frame.add(painelAtual, BorderLayout.CENTER);
+
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
     }
 
-    public void criaJanela() throws Exception {
+    public JPanel painelMenu(){
+        
+        JPanel painel01 = new JPanel();
+        
+        //panel04.setBackground(Color.magenta);
+
+        painel01.setPreferredSize(new Dimension(100,100));
+        
+        //cria o botão
+        JButton btApps = new JButton("Gerenciar Apps");
+        JButton btClientes = new JButton("Gerenciar Clientes");
+        btApps.setPreferredSize(new Dimension(200, 70));
+        btClientes.setPreferredSize(new Dimension(200, 70));
+        btApps.addActionListener(b -> trocarPainel(painelApps()));
+        
+        //titulo
+        JLabel menu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
+        
+
+        //sistema de grade e centralização dos elementos
+        painel01.setLayout(new GridBagLayout());
+        GridBagConstraints centraliza = new GridBagConstraints();
+        
+        centraliza.insets = new Insets(15, 15, 15, 15);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 0;
+        painel01.add(menu, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 1;
+        painel01.add(btClientes, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 2;
+        painel01.add(btApps, centraliza);
+
+        return painel01;
+    }
+
+    public void trocarPainel(JPanel novoPainel) {
+        this.frame.getContentPane().removeAll();
+        this.frame.getContentPane().add(novoPainel, BorderLayout.CENTER);
+        this.frame.revalidate();
+        this.frame.repaint();
+        this.painelAtual = novoPainel;
+    }
+    
+    public JPanel painelApps() {
+        
         catAppsVM = new CatalogoAplicativosViewModel(catApps);
         JTable tabela = new JTable(catAppsVM);
         tabela.setFillsViewportHeight(true);
 
-        JFrame frame = new JFrame("Gestão de aplicativos");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel painel = new JPanel();
 
         JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         linha1.add(scrollPane);
 
-        JPanel jpNovoApp = criaPainelNovoApp();
 
-        JPanel linha3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btSave = new JButton("Salvar dados");
         btSave.addActionListener(e->catApps.saveToFile());
-        linha3.add(btSave);
 
-        Container contentPane = frame.getContentPane();
-        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
-        contentPane.add(linha1);
-        contentPane.add(jpNovoApp);
-        contentPane.add(linha3);
-    
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        JPanel nApp = criaPainelNovoApp();
+
+        painel.setLayout(new GridBagLayout());
+        GridBagConstraints centraliza = new GridBagConstraints();
+        centraliza.insets = new Insets(5, 5, 5, 5);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 0;
+        painel.add(tabela, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 1;
+        painel.add(linha1, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 3;
+        painel.add(nApp, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 4;
+        painel.add(btSave, centraliza);
+
+        return painel;
     }
-
+    
     public JPanel criaPainelNovoApp(){
         JPanel painel = new JPanel();
         painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
@@ -84,7 +153,7 @@ public class App {
         painel.add(linha2);
         return painel;
     }
-
+    
     public void adicionaApp(){
         int codigo = Integer.parseInt(tfCodigo.getText());
         String nome = tfNome.getText();
@@ -97,6 +166,5 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         App app = new App();
-        app.criaJanela();
     }
 }
