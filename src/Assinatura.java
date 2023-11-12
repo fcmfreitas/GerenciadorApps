@@ -1,22 +1,19 @@
 public class Assinatura {
-    private String codigo, codigoApp, cpfCliente;
-    private int inicioMes, inicioAno, encerramentoMes, encerramentoAno;
+    private String codigo, codigoApp, cpfCliente, inicio, fim;
 
-    public Assinatura(String codigo, String codigoApp, String cpfCliente, int inicioMes, int inicioAno, int encerramentoMes, int encerramentoAno) {
+    public Assinatura(String codigo, String codigoApp, String cpfCliente, String inicio, String fim) {
         this.codigo = codigo;
         this.codigoApp = codigoApp;
         this.cpfCliente = cpfCliente;
-        this.inicioMes = inicioMes;
-        this.inicioAno = inicioAno;
-        this.encerramentoMes = encerramentoMes;
-        this.encerramentoAno = encerramentoAno;
+        this.inicio = inicio;
+        this.fim = fim;
     }
 
     public String getCodigo() {
         return codigo;
     }
 
-    public String getCodigoAplicativo() {
+    public String getCodigoApp() {
         return codigoApp;
     }
 
@@ -24,26 +21,17 @@ public class Assinatura {
         return cpfCliente;
     }
 
-    public int getInicioMes() {
-        return inicioMes;
+    public String getInicio() {
+        return inicio;
     }
 
-    public int getInicioAno() {
-        return inicioAno;
-    }
-
-    public int getEncerramentoMes() {
-        return encerramentoMes;
-    }
-
-    public int getEncerramentoAno() {
-        return encerramentoAno;
+    public String getFim() {
+        return fim;
     }
 
     @Override
     public String toString() {
-        return "Assinatura [codigo=" + codigo + ", codigoApp=" + codigoApp + ", cpfCliente=" + cpfCliente
-                + ", inicioMes=" + inicioMes + ", inicioAno=" + inicioAno + ", encerramentoMes=" + encerramentoMes
-                + ", encerramentoAno=" + encerramentoAno + "]";
+        return "Assinatura [codigo=" + codigo + ", codigoApp=" + codigoApp + ", cpfCliente=" + cpfCliente + ", inicio="
+                + inicio + ", fim=" + fim + "]";
     }
 }
