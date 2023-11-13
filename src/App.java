@@ -8,9 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 
 public class App {
     private CatalogoAplicativos catApps;
+    private CatalogoClientes catClientes;
     private CatalogoAplicativosViewModel catAppsVM;
     private JTextField tfCodigo;
     private JTextField tfNome;
@@ -24,7 +26,9 @@ public class App {
     public App(){
         
         catApps = new CatalogoAplicativos();
+        catClientes = new CatalogoClientes();
         catApps.loadFromFile();
+        catClientes.loadFromFile();
 
         this.frame = new JFrame("Gestão de aplicativos");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,13 +39,15 @@ public class App {
 
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
+
     }
 
     public JPanel painelMenu(){
         
         JPanel painel01 = new JPanel();
-        
-        //panel04.setBackground(Color.magenta);
+    
+
+        //painel01.setBackground(Color.magenta);
 
         painel01.setPreferredSize(new Dimension(100,100));
         
@@ -123,6 +129,12 @@ public class App {
         centraliza.gridx = 0;
         centraliza.gridy = 4;
         painel.add(btSave, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 5;
+        JButton voltar = new JButton("Voltar");
+        painel.add(voltar, centraliza);
+        voltar.addActionListener(e -> trocarPainel(painelMenu()));
 
         return painel;
     }

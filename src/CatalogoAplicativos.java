@@ -18,6 +18,10 @@ public class CatalogoAplicativos {
         aplicativos.add(p);
     }
 
+    public void remove(Aplicativo p) {
+        aplicativos.remove(p);
+    }
+
     public Aplicativo getProdutoNaLinha(int linha) {
         if (linha >= aplicativos.size()) {
             return null;

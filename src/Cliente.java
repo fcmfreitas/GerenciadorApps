@@ -1,6 +1,12 @@
 public class Cliente {
     String cpf, email, nome;
 
+    public Cliente(String cpf, String email, String nome) {
+        this.cpf = cpf;
+        this.email = email;
+        this.nome = nome;
+    }
+
     public String getCpf() {
         return cpf;
     }
@@ -24,9 +30,17 @@ public class Cliente {
     public String getNome() {
         return nome;
     }
-    
-    @Override
-    public String toString() {
-        return "Cliente [cpf=" + cpf + ", email=" + email + ", nome=" + nome + "]";
+
+    public String toLineFile() {
+        return cpf + "," + email + "," + nome;
+    }
+
+    public static Cliente fromLineFile(String line){
+        String[] tokens = line.split(",");
+        String cpf = (tokens[0]);
+        String nome = tokens[1];
+        String email = (tokens[2]);
+
+        return new Cliente(cpf,nome,email);
     }
 }
