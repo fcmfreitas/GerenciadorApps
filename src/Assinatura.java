@@ -1,7 +1,8 @@
 public class Assinatura {
-    private String codigo, codigoApp, cpfCliente, inicio, fim;
+    private int codigo, codigoApp;
+    private String cpfCliente, inicio, fim;
 
-    public Assinatura(String codigo, String codigoApp, String cpfCliente, String inicio, String fim) {
+    public Assinatura(int codigo, int codigoApp, String cpfCliente, String inicio, String fim) {
         this.codigo = codigo;
         this.codigoApp = codigoApp;
         this.cpfCliente = cpfCliente;
@@ -9,11 +10,11 @@ public class Assinatura {
         this.fim = fim;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public String getCodigoApp() {
+    public int getCodigoApp() {
         return codigoApp;
     }
 
@@ -29,9 +30,17 @@ public class Assinatura {
         return fim;
     }
 
-    @Override
-    public String toString() {
-        return "Assinatura [codigo=" + codigo + ", codigoApp=" + codigoApp + ", cpfCliente=" + cpfCliente + ", inicio="
-                + inicio + ", fim=" + fim + "]";
+    public String toLineFile(){
+        return codigo+","+codigoApp+","+cpfCliente+","+inicio+","+fim;
+    }
+
+    public static Assinatura fromLineFile(String line){
+        String[] tokens = line.split(",");
+        int codigo = Integer.parseInt(tokens[0]);
+        int codigoApp = Integer.parseInt(tokens[1]);
+        String cpfCliente = tokens[2];
+        String inicio = tokens[3];
+        String fim = tokens[4];
+        return new Assinatura(codigo,codigoApp,cpfCliente,inicio,fim);
     }
 }
