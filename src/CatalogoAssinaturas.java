@@ -47,8 +47,8 @@ public class CatalogoAssinaturas {
     }
 
     public void saveToFile() {
-        Path appsFilePath = Path.of("apps.dat");
-        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(appsFilePath, StandardCharsets.UTF_8))) {
+        Path assinaturasFilePath = Path.of("assinaturas.dat");
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(assinaturasFilePath, StandardCharsets.UTF_8))) {
             for (Assinatura s : assinaturas) {
                 writer.println(s.toLineFile());
             }
