@@ -54,8 +54,10 @@ public class App {
         //cria o botão
         JButton btApps = new JButton("Gerenciar Apps");
         JButton btClientes = new JButton("Gerenciar Clientes");
+        JButton btAssinaturas = new JButton("Gerenciar Assinaturas");
         btApps.setPreferredSize(new Dimension(200, 70));
         btClientes.setPreferredSize(new Dimension(200, 70));
+        btAssinaturas.setPreferredSize(new Dimension(200, 70));
         btApps.addActionListener(b -> trocarPainel(painelApps()));
         
         //titulo
@@ -79,6 +81,10 @@ public class App {
         centraliza.gridx = 0;
         centraliza.gridy = 2;
         painel01.add(btApps, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 3;
+        painel01.add(btAssinaturas, centraliza);
 
         return painel01;
     }
