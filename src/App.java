@@ -8,12 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JToolBar;
 
 public class App {
     private CatalogoAplicativos catApps;
     private CatalogoClientes catClientes;
+    private CatalogoAssinaturas catAssinaturas;
     private CatalogoAplicativosViewModel catAppsVM;
+    private CatalogoClientesViewModel catClientesVM;
+    private CatalogoAssinaturasViewModel catAssinaturasVM;
     private JTextField tfCodigo;
     private JTextField tfNome;
     private JTextField tfPreco;
@@ -21,7 +23,6 @@ public class App {
     private JButton btAdd;
     private JPanel painelAtual;
     private JFrame frame;
-
 
     public App(){
         
@@ -59,6 +60,8 @@ public class App {
         btClientes.setPreferredSize(new Dimension(200, 70));
         btAssinaturas.setPreferredSize(new Dimension(200, 70));
         btApps.addActionListener(b -> trocarPainel(painelApps()));
+        btClientes.addActionListener(b -> trocarPainel(painelClientes()));
+        btAssinaturas.addActionListener(b -> trocarPainel(painelAssinaturas()));
         
         //titulo
         JLabel menu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
@@ -171,6 +174,129 @@ public class App {
         painel.add(linha2);
         return painel;
     }
+
+    public JPanel painelClientes() {
+        catClientesVM = new CatalogoClientesViewModel(catClientes);
+        JTable tabela = new JTable(catClientesVM);
+
+        JPanel painel = new JPanel();
+
+        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        linha1.add(scrollPane);
+
+
+        JButton btSave = new JButton("Salvar dados");
+        btSave.addActionListener(e->catClientes.saveToFile());
+
+        JPanel clientes = criaPainelClientes();
+
+        painel.setLayout(new GridBagLayout());
+        GridBagConstraints centraliza = new GridBagConstraints();
+        centraliza.insets = new Insets(5, 5, 5, 5);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 0;
+        painel.add(tabela, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 1;
+        painel.add(linha1, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 3;
+        painel.add(clientes, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 4;
+        painel.add(btSave, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 5;
+        JButton voltar = new JButton("Voltar");
+        painel.add(voltar, centraliza);
+        voltar.addActionListener(e -> trocarPainel(painelMenu()));
+
+        return painel;
+
+    }
+
+    public JPanel criaPainelClientes(){
+        JPanel painel = new JPanel();
+        painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
+
+        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        linha1.add(new JLabel("CPF"));
+        tfCodigo = new JTextField(10);
+        linha1.add(tfCodigo);
+        linha1.add(new JLabel("Email"));
+        tfNome = new JTextField(20);
+        linha1.add(tfNome);
+        JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.LEADING));
+        linha2.add(new JLabel("Nome"));
+        tfPreco = new JTextField(10);
+        linha2.add(tfPreco);
+        btAdd = new JButton("Novo Cliente");
+        btAdd.addActionListener(e->adicionaCliente());
+        linha2.add(btAdd);
+
+        painel.add(linha1);
+        painel.add(linha2);
+        return painel;
+    }
+    
+    public JPanel painelAssinaturas() {
+        catClientesVM = new CatalogoClientesViewModel(catClientes);
+        JTable tabela = new JTable(catClientesVM);
+
+        JPanel painel = new JPanel();
+
+        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        linha1.add(scrollPane);
+
+
+        JButton btSave = new JButton("Salvar dados");
+        btSave.addActionListener(e->catClientes.saveToFile());
+
+        JPanel clientes = criaPainelClientes();
+
+        painel.setLayout(new GridBagLayout());
+        GridBagConstraints centraliza = new GridBagConstraints();
+        centraliza.insets = new Insets(5, 5, 5, 5);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 0;
+        painel.add(tabela, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 1;
+        painel.add(linha1, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 3;
+        painel.add(clientes, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 4;
+        painel.add(btSave, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 5;
+        JButton voltar = new JButton("Voltar");
+        painel.add(voltar, centraliza);
+        voltar.addActionListener(e -> trocarPainel(painelMenu()));
+
+        return painel;
+
+    }
+
+    public JPanel criaPainelAssinaturas() {
+        JPanel painel = new JPanel();
+        return painel;
+    }
     
     public void adicionaApp(){
         int codigo = Integer.parseInt(tfCodigo.getText());
@@ -182,6 +308,25 @@ public class App {
         catAppsVM.fireTableDataChanged();
     }
 
+    public void adicionaCliente() {
+        String cpf = tfNome.getText();
+        String email = tfNome.getText();
+        String nome = tfNome.getText();
+        Cliente novo = new Cliente(cpf, email, nome);
+        catClientes.cadastra(novo);
+        catClientesVM.fireTableDataChanged();
+    }
+
+    public void adicionaAssinatura() {
+        int codigo = Integer.parseInt(tfCodigo.getText());
+        int codigoApp = Integer.parseInt(tfCodigo.getText());
+        String cpfCliente = tfNome.getText();
+        String inicio = tfNome.getText();
+        String fim = tfNome.getText();
+        Assinatura nova = new Assinatura(codigo, codigoApp, cpfCliente, inicio, fim);
+        catAssinaturas.cadastra(nova);
+        catAssinaturasVM.fireTableDataChanged();
+    }
     public static void main(String[] args) throws Exception {
         App app = new App();
     }
