@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class App {
@@ -110,6 +111,7 @@ public class App {
         JPanel painel = new JPanel();
 
         JPanel linha1 = new JPanel();
+        JPanel linha2 = new JPanel();
         JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         linha1.add(scrollPane);
@@ -118,8 +120,11 @@ public class App {
         JButton btSave = new JButton("Salvar dados");
         JTextField codigoRemover = new JTextField(10);
         JButton voltar = new JButton("Voltar");
+        linha2.add(new JLabel("Digite o código para remover:"));
+        linha2.add(codigoRemover);
+        linha2.add(btRemover);
 
-        btRemover.addActionListener(e -> catApps.removeApp(codigoRemover));
+        btRemover.addActionListener(e -> catApps.removeApp(Integer.parseInt(codigoRemover.getText())));
         btSave.addActionListener(e->catApps.saveToFile());
 
         JPanel nApp = criaPainelNovoApp();
@@ -138,19 +143,20 @@ public class App {
 
         centraliza.gridx = 0;
         centraliza.gridy = 4;
-        painel.add(btSave, centraliza);
+
+        painel.add(linha2, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
-
-        
-        painel.add(voltar, centraliza);
+        painel.add(btSave, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 6;
 
-        painel.add(codigoRemover, centraliza);
-        painel.add(btRemover, centraliza);
+        
+        painel.add(voltar, centraliza);
+
+        
         
         voltar.addActionListener(e -> trocarPainel(painelMenu()));
 
