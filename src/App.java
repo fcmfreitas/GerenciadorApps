@@ -26,15 +26,17 @@ public class App {
 
     public App(){
         
+        catAssinaturas = new CatalogoAssinaturas();
         catApps = new CatalogoAplicativos();
         catClientes = new CatalogoClientes();
         catApps.loadFromFile();
         catClientes.loadFromFile();
+        catAssinaturas.loadFromFile();
 
         this.frame = new JFrame("Gestão de aplicativos");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLayout(new BorderLayout());
-        this.frame.setSize(600, 500);
+        this.frame.setSize(700, 800);
         this.painelAtual = painelMenu();
         this.frame.add(painelAtual, BorderLayout.CENTER);
 
@@ -47,7 +49,6 @@ public class App {
         
         JPanel painel01 = new JPanel();
     
-
         //painel01.setBackground(Color.magenta);
 
         painel01.setPreferredSize(new Dimension(100,100));
@@ -108,13 +109,17 @@ public class App {
 
         JPanel painel = new JPanel();
 
-        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel linha1 = new JPanel();
         JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         linha1.add(scrollPane);
 
-
+        JButton btRemover = new JButton("Remover");
         JButton btSave = new JButton("Salvar dados");
+        JTextField codigoRemover = new JTextField(10);
+        JButton voltar = new JButton("Voltar");
+
+        btRemover.addActionListener(e -> catApps.removeApp(codigoRemover));
         btSave.addActionListener(e->catApps.saveToFile());
 
         JPanel nApp = criaPainelNovoApp();
@@ -125,12 +130,8 @@ public class App {
 
         centraliza.gridx = 0;
         centraliza.gridy = 0;
-        painel.add(tabela, centraliza);
-
-        centraliza.gridx = 0;
-        centraliza.gridy = 1;
         painel.add(linha1, centraliza);
-
+      
         centraliza.gridx = 0;
         centraliza.gridy = 3;
         painel.add(nApp, centraliza);
@@ -141,8 +142,16 @@ public class App {
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
-        JButton voltar = new JButton("Voltar");
+
+        
         painel.add(voltar, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 6;
+
+        painel.add(codigoRemover, centraliza);
+        painel.add(btRemover, centraliza);
+        
         voltar.addActionListener(e -> trocarPainel(painelMenu()));
 
         return painel;
@@ -247,8 +256,8 @@ public class App {
     }
     
     public JPanel painelAssinaturas() {
-        catClientesVM = new CatalogoClientesViewModel(catClientes);
-        JTable tabela = new JTable(catClientesVM);
+        catAssinaturasVM = new CatalogoAssinaturasViewModel(catAssinaturas);
+        JTable tabela = new JTable(catAssinaturasVM);
 
         JPanel painel = new JPanel();
 
@@ -259,9 +268,9 @@ public class App {
 
 
         JButton btSave = new JButton("Salvar dados");
-        btSave.addActionListener(e->catClientes.saveToFile());
+        btSave.addActionListener(e->catAssinaturas.saveToFile());
 
-        JPanel clientes = criaPainelClientes();
+        JPanel assinaturas = criaPainelAssinaturas();
 
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
@@ -277,7 +286,7 @@ public class App {
 
         centraliza.gridx = 0;
         centraliza.gridy = 3;
-        painel.add(clientes, centraliza);
+        painel.add(assinaturas, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 4;

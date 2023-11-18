@@ -46,6 +46,10 @@ public class CatalogoAplicativos {
         }
     }
 
+    public void removeApp(int codigo){
+        aplicativos.removeIf(app -> codigo == app.getCodigo());
+    }
+
     public void saveToFile() {
         Path appsFilePath = Path.of("apps.dat");
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(appsFilePath, StandardCharsets.UTF_8))) {
