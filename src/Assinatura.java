@@ -14,20 +14,40 @@ public class Assinatura {
         return codigo;
     }
 
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
     public int getCodigoApp() {
         return codigoApp;
+    }
+
+    public void setCodigoApp(int codigoApp) {
+        this.codigoApp = codigoApp;
     }
 
     public String getCpfCliente() {
         return cpfCliente;
     }
 
+    public void setCpfCliente(String cpfCliente) {
+        this.cpfCliente = cpfCliente;
+    }
+
     public String getInicio() {
         return inicio;
     }
 
+    public void setInicio(String inicio) {
+        this.inicio = inicio;
+    }
+ 
     public String getFim() {
         return fim;
+    }
+
+    public void setFim(String fim) {
+        this.fim = fim;
     }
 
     public String toLineFile(){
