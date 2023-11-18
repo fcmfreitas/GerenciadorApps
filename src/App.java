@@ -30,6 +30,7 @@ public class App {
         catAssinaturas = new CatalogoAssinaturas();
         catApps = new CatalogoAplicativos();
         catClientes = new CatalogoClientes();
+        
         catApps.loadFromFile();
         catClientes.loadFromFile();
         catAssinaturas.loadFromFile();
@@ -117,15 +118,20 @@ public class App {
         linha1.add(scrollPane);
 
         JButton btRemover = new JButton("Remover");
-        JButton btSave = new JButton("Salvar dados");
         JTextField codigoRemover = new JTextField(10);
-        JButton voltar = new JButton("Voltar");
+        JButton voltar = new JButton("Voltar e Salvar");
         linha2.add(new JLabel("Digite o código para remover:"));
         linha2.add(codigoRemover);
         linha2.add(btRemover);
 
-        btRemover.addActionListener(e -> catApps.removeApp(Integer.parseInt(codigoRemover.getText())));
-        btSave.addActionListener(e->catApps.saveToFile());
+        btRemover.addActionListener(e -> {
+            catApps.removeApp(Integer.parseInt(codigoRemover.getText()));
+            trocarPainel(painelApps());
+        });
+        voltar.addActionListener(e -> {
+            trocarPainel(painelMenu());
+            catApps.saveToFile();
+        });
 
         JPanel nApp = criaPainelNovoApp();
 
@@ -148,17 +154,9 @@ public class App {
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
-        painel.add(btSave, centraliza);
 
-        centraliza.gridx = 0;
-        centraliza.gridy = 6;
-
-        
         painel.add(voltar, centraliza);
-
-        
-        
-        voltar.addActionListener(e -> trocarPainel(painelMenu()));
+    
 
         return painel;
     }
