@@ -1,10 +1,14 @@
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 public class CatalogoClientes {
     private List<Cliente> clientes;
@@ -20,6 +24,15 @@ public class CatalogoClientes {
     public void remove(Cliente c) {
         clientes.remove(c);
     }
+    /*
+    public ArrayList<String> gerarLista(Cliente cl){
+        LocalDate dataAtual = LocalDate.now();
+        String mes = String.format("%02d", dataAtual.getMonthValue());
+        return clientes.stream()
+        .filter(c -> c.getCpf().equals(cl.getCpf())
+            .collect(Collectors.toList()));    
+    }
+    */
 
     public Cliente getClientesNaLinha(int linha) {
         if (linha >= clientes.size()) {

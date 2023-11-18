@@ -36,7 +36,7 @@ public class CatalogoAssinaturas {
         List<Assinatura> sAtiva = assinaturas.stream()
             .filter(a -> a.getCpfCliente().equals(s.getCpfCliente()) &&
                     a.getCodigoApp() == s.getCodigoApp() &&
-                    a.getFim().equals("00/00"))
+                    a.getFim().equals("00"))
             .collect(Collectors.toList());  
         return !sAtiva.isEmpty();
     }
@@ -45,7 +45,7 @@ public class CatalogoAssinaturas {
         for (Assinatura a : assinaturas) {
             if (a.getCpfCliente().equals(s.getCpfCliente()) &&
                 a.getCodigoApp() == s.getCodigoApp() &&
-                a.getFim().equals("00/00")) {
+                a.getFim().equals("00")) {
                     a.setFim(getData());
                     break;
                 }
@@ -54,7 +54,7 @@ public class CatalogoAssinaturas {
 
     private String getData() {
         LocalDate dataAtual = LocalDate.now();
-        return String.format("%02d/%02d", dataAtual.getDayOfMonth(), dataAtual.getMonthValue());
+        return String.format("%02d", dataAtual.getMonthValue());
     }
 
     public Assinatura getAssinaturaNaLinha(int linha) {

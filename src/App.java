@@ -49,11 +49,11 @@ public class App {
 
     public JPanel painelMenu(){
         
-        JPanel painel01 = new JPanel();
+        JPanel painel = new JPanel();
     
         //painel01.setBackground(Color.magenta);
 
-        painel01.setPreferredSize(new Dimension(100,100));
+        painel.setPreferredSize(new Dimension(100,100));
         
         //cria o botão
         JButton btApps = new JButton("Gerenciar Apps");
@@ -67,32 +67,32 @@ public class App {
         btAssinaturas.addActionListener(b -> trocarPainel(painelAssinaturas()));
         
         //titulo
-        JLabel menu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
+        JLabel tituloMenu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
         
 
         //sistema de grade e centralização dos elementos
-        painel01.setLayout(new GridBagLayout());
+        painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         
         centraliza.insets = new Insets(15, 15, 15, 15);
 
         centraliza.gridx = 0;
         centraliza.gridy = 0;
-        painel01.add(menu, centraliza);
+        painel.add(tituloMenu, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 1;
-        painel01.add(btClientes, centraliza);
+        painel.add(btClientes, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 2;
-        painel01.add(btApps, centraliza);
+        painel.add(btApps, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 3;
-        painel01.add(btAssinaturas, centraliza);
+        painel.add(btAssinaturas, centraliza);
 
-        return painel01;
+        return painel;
     }
 
     public void trocarPainel(JPanel novoPainel) {
@@ -110,19 +110,38 @@ public class App {
         tabela.setFillsViewportHeight(true);
 
         JPanel painel = new JPanel();
-
-        JPanel linha1 = new JPanel();
-        JPanel linha2 = new JPanel();
+        // linha0
+        JPanel linha0 = new JPanel();
         JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        linha1.add(scrollPane);
-
+        linha0.add(scrollPane);
+        // linha1
+        JPanel linha1 = new JPanel(); 
+        linha1.add(new JLabel("Codigo"));
+        tfCodigo = new JTextField(10);
+        linha1.add(tfCodigo);
+        linha1.add(new JLabel("Nome"));
+        tfNome = new JTextField(20);
+        linha1.add(tfNome);
+        // linha2
+        JPanel linha2 = new JPanel();
+        linha2.add(new JLabel("Licença"));
+        tfPreco = new JTextField(10);
+        linha2.add(tfPreco);
+        linha2.add(new JLabel("Sist. Oper."));
+        cbSo = new JComboBox<>(Aplicativo.SO.values());
+        linha2.add(cbSo);
+        btAdd = new JButton("Novo App");
+        btAdd.addActionListener(e->adicionaApp());
+        linha2.add(btAdd);
+        // linha3
+        JPanel linha3 = new JPanel();
         JButton btRemover = new JButton("Remover");
         JTextField codigoRemover = new JTextField(10);
         JButton voltar = new JButton("Voltar e Salvar");
-        linha2.add(new JLabel("Digite o código para remover:"));
-        linha2.add(codigoRemover);
-        linha2.add(btRemover);
+        linha3.add(new JLabel("Digite o código para remover:"));
+        linha3.add(codigoRemover);
+        linha3.add(btRemover);
 
         btRemover.addActionListener(e -> {
             catApps.removeApp(Integer.parseInt(codigoRemover.getText()));
@@ -133,58 +152,33 @@ public class App {
             catApps.saveToFile();
         });
 
-        JPanel nApp = criaPainelNovoApp();
-
+        //configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         centraliza.insets = new Insets(5, 5, 5, 5);
 
         centraliza.gridx = 0;
         centraliza.gridy = 0;
-        painel.add(linha1, centraliza);
+        painel.add(linha0, centraliza);
       
         centraliza.gridx = 0;
+        centraliza.gridy = 2;
+        painel.add(linha1, centraliza);
+
+        centraliza.gridx = 0;
         centraliza.gridy = 3;
-        painel.add(nApp, centraliza);
+        painel.add(linha2, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 4;
 
-        painel.add(linha2, centraliza);
+        painel.add(linha3, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
 
         painel.add(voltar, centraliza);
     
-
-        return painel;
-    }
-    
-    public JPanel criaPainelNovoApp(){
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
-
-        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        linha1.add(new JLabel("Codigo"));
-        tfCodigo = new JTextField(10);
-        linha1.add(tfCodigo);
-        linha1.add(new JLabel("Nome"));
-        tfNome = new JTextField(20);
-        linha1.add(tfNome);
-        JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        linha2.add(new JLabel("Licença"));
-        tfPreco = new JTextField(10);
-        linha2.add(tfPreco);
-        linha2.add(new JLabel("Sist. Oper."));
-        cbSo = new JComboBox<>(Aplicativo.SO.values());
-        linha2.add(cbSo);
-        btAdd = new JButton("Novo App");
-        btAdd.addActionListener(e->adicionaApp());
-        linha2.add(btAdd);
-
-        painel.add(linha1);
-        painel.add(linha2);
         return painel;
     }
 
