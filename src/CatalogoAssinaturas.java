@@ -31,6 +31,19 @@ public class CatalogoAssinaturas {
         saveToFile();
     }
 
+    public List<String> geraLista() {
+        return assinaturas.stream()
+        .filter(a -> a.getFim().equals("00/00"))
+        .map(Assinatura::getCpfCliente)
+        .collect(Collectors.toList());
+    }
+
+    public double calculaValor(Aplicativo app) {
+        double valor = app.getPreco();
+        return valor;
+    }
+
+
     public Assinatura getAssinaturaNaLinha(int linha) {
         if (linha >= assinaturas.size()) {
             return null;
