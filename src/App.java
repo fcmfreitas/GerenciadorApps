@@ -11,21 +11,14 @@ public class App {
     private CatalogoAplicativosViewModel catAppsVM;
     private CatalogoClientesViewModel catClientesVM;
     private CatalogoAssinaturasViewModel catAssinaturasVM;
-    private JTextField tfCodigo;
-    private JTextField tfCpf;
-    private JTextField tfCodApp;
-    private JTextField tfInicio;
-    private JTextField tfFim;
+    private JTextField tfCodigo, tfCpf, tfCodApp, tfInicio, tfFim;
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
     private JPanel painelAtual;
-    private JFrame frame;
-    private JFrame frame2;
+    private JFrame frame, frame2;
     private JLabel tituloMenu;
     private boolean temaEscuro = false;
-    private DefaultMutableTreeNode root;
-    private DefaultMutableTreeNode root2;
-    private DefaultMutableTreeNode root3;
+    private DefaultMutableTreeNode root, root2, root3, root4;
     private DefaultTreeModel treeModel;
     private JTree tree;
 
