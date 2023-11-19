@@ -65,6 +65,8 @@ public class App {
         root.add(root2);
         root3 = new DefaultMutableTreeNode("Base de Assinaturas");
         root.add(root3);
+        root4 = new DefaultMutableTreeNode("Cobranças");
+        root.add(root4);
         
         for(Cliente cliente : catClientes.getLista()){
             root2.add(new DefaultMutableTreeNode("CPF | " + cliente.getCpf()+":"));
