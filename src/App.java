@@ -35,6 +35,8 @@ public class App {
     private DefaultMutableTreeNode root;
     private DefaultMutableTreeNode root2;
     private DefaultMutableTreeNode root3;
+    private DefaultMutableTreeNode root4;
+    private DefaultMutableTreeNode root5;
     private DefaultTreeModel treeModel;
     private JTree tree;
 
@@ -71,7 +73,13 @@ public class App {
         tree = new JTree(treeModel);
         root2 = new DefaultMutableTreeNode("Base de Clientes");
         root.add(root2);
-        
+        root3 = new DefaultMutableTreeNode("Assinaturas");
+        root2.add(root3);
+        root4 = new DefaultMutableTreeNode("Base de Assinaturas");
+        root.add(root4);
+        root5 = new DefaultMutableTreeNode("Assinantes");
+        root4.add(root5);
+
 
         JFrame frame = new JFrame("Listas");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
