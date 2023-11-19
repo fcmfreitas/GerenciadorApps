@@ -20,6 +20,8 @@ public class App {
     private JTextField tfCpf;
     private JTextField tfNome;
     private JTextField tfEmail;
+    private JTextField tfInicio;
+    private JTextField tfFim;
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
     private JPanel painelAtual;
@@ -197,7 +199,7 @@ public class App {
         // linha1
         JPanel linha1 = new JPanel(); 
         linha1.add(new JLabel("CPF"));
-        tfCpf = new JTextField(10);
+        tfCpf = new JTextField(11);
         linha1.add(tfCpf);
         linha1.add(new JLabel("Nome"));
         tfNome = new JTextField(15);
@@ -261,52 +263,90 @@ public class App {
     public JPanel painelAssinaturas() {
         catAssinaturasVM = new CatalogoAssinaturasViewModel(catAssinaturas);
         JTable tabela = new JTable(catAssinaturasVM);
+        tabela.setFillsViewportHeight(true);
 
         JPanel painel = new JPanel();
-
-        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // linha0
+        JPanel linha0 = new JPanel();
         JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        linha1.add(scrollPane);
+        linha0.add(scrollPane);
+        // linha1
+        JPanel linha1 = new JPanel(); 
+        linha1.add(new JLabel("Codigo"));
+        tfEmail = new JTextField(10);
+        linha1.add(tfEmail);
+        linha1.add(new JLabel("Codigo do App"));
+        tfNome = new JTextField(10);
+        linha1.add(tfNome);
+        // linha2
+        JPanel linha2 = new JPanel();
+        linha2.add(new JLabel("CPF do cliente"));
+        tfCpf = new JTextField(11);
+        linha2.add(tfCpf);
+        // linha 3
+        JPanel linha3 = new JPanel();
+        linha3.add(new JLabel("Inicio da vigencia:"));
+        tfInicio = new JTextField(5);
+        linha3.add(tfInicio);
+        linha3.add(new JLabel("Fim da vigencia"));
+        tfFim = new JTextField(5);
+        linha3.add(tfFim);
+        
 
+        btAdd = new JButton("Nova Assinatura");
+        btAdd.addActionListener(e->adicionaAssinatura());
+        linha3.add(btAdd);
+        //linha4
+        JPanel linha4 = new JPanel();
+        JButton btRemover = new JButton("Remover");
+        JTextField codigoRemovido = new JTextField(11);
+        JButton voltar = new JButton("Voltar e Salvar");
+        linha4.add(new JLabel("Digite o codigo para remover:"));
+        linha4.add(codigoRemovido);
+        linha4.add(btRemover);
 
-        JButton btSave = new JButton("Salvar dados");
-        btSave.addActionListener(e->catAssinaturas.saveToFile());
-
-        JPanel assinaturas = criaPainelAssinaturas();
-
+        btRemover.addActionListener(e -> {
+            catAssinaturas.removeAssinatura(Integer.parseInt(codigoRemovido.getText()));
+            trocarPainel(painelAssinaturas());
+        });
+        voltar.addActionListener(e -> {
+            trocarPainel(painelMenu());
+            catAssinaturas.saveToFile();
+        });
+        
+        //configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         centraliza.insets = new Insets(5, 5, 5, 5);
 
         centraliza.gridx = 0;
         centraliza.gridy = 0;
-        painel.add(tabela, centraliza);
-
+        painel.add(linha0, centraliza);
+      
         centraliza.gridx = 0;
-        centraliza.gridy = 1;
+        centraliza.gridy = 2;
         painel.add(linha1, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 3;
-        painel.add(assinaturas, centraliza);
+        painel.add(linha2, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 4;
-        painel.add(btSave, centraliza);
+
+        painel.add(linha3, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
-        JButton voltar = new JButton("Voltar");
+
+        painel.add(linha4, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 6;
+        
         painel.add(voltar, centraliza);
-        voltar.addActionListener(e -> trocarPainel(painelMenu()));
-
-        return painel;
-
-    }
-
-    public JPanel criaPainelAssinaturas() {
-        JPanel painel = new JPanel();
+    
         return painel;
     }
     
@@ -330,11 +370,11 @@ public class App {
     }
 
     public void adicionaAssinatura() {
-        int codigo = Integer.parseInt(tfCpf.getText());
-        int codigoApp = Integer.parseInt(tfCpf.getText());
-        String cpfCliente = tfNome.getText();
-        String inicio = tfNome.getText();
-        String fim = tfNome.getText();
+        int codigo = Integer.parseInt(tfEmail.getText());
+        int codigoApp = Integer.parseInt(tfNome.getText());
+        String cpfCliente = tfCpf.getText();
+        String inicio = tfInicio.getText();
+        String fim = tfFim.getText();
         Assinatura nova = new Assinatura(codigo, codigoApp, cpfCliente, inicio, fim);
         catAssinaturas.cadastra(nova);
         catAssinaturasVM.fireTableDataChanged();
