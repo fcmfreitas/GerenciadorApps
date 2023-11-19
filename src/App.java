@@ -1,5 +1,4 @@
 import java.awt.*;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -7,7 +6,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class App {
@@ -46,7 +44,6 @@ public class App {
 
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
-
     }
 
     public JPanel painelMenu(){
@@ -67,7 +64,7 @@ public class App {
         btApps.addActionListener(b -> trocarPainel(painelApps()));
         btClientes.addActionListener(b -> trocarPainel(painelClientes()));
         btAssinaturas.addActionListener(b -> trocarPainel(painelAssinaturas()));
-        
+
         //titulo
         JLabel tituloMenu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
         
@@ -134,7 +131,6 @@ public class App {
         cbSo = new JComboBox<>(Aplicativo.SO.values());
         linha2.add(cbSo);
         btAdd = new JButton("Novo App");
-        btAdd.addActionListener(e->adicionaApp());
         linha2.add(btAdd);
         // linha3
         JPanel linha3 = new JPanel();
@@ -144,6 +140,7 @@ public class App {
         linha3.add(new JLabel("Digite o código para remover:"));
         linha3.add(codigoRemover);
         linha3.add(btRemover);
+        JButton btLista = new JButton("Lista de Assinantes");
 
         btRemover.addActionListener(e -> {
             catApps.removeApp(Integer.parseInt(codigoRemover.getText()));
@@ -180,6 +177,11 @@ public class App {
         centraliza.gridy = 5;
 
         painel.add(voltar, centraliza);
+
+        centraliza.gridx = 0;
+        centraliza.gridy = 6;
+        
+        painel.add(btLista, centraliza);
     
         return painel;
     }
@@ -299,10 +301,10 @@ public class App {
         linha3.add(btAdd);
         //linha4
         JPanel linha4 = new JPanel();
-        JButton btRemover = new JButton("Remover");
+        JButton btRemover = new JButton("Cancelar Assinatura");
         JTextField codigoRemovido = new JTextField(11);
         JButton voltar = new JButton("Voltar e Salvar");
-        linha4.add(new JLabel("Digite o codigo para remover:"));
+        linha4.add(new JLabel("Digite o codigo da assinatura para cancelar:"));
         linha4.add(codigoRemovido);
         linha4.add(btRemover);
 
@@ -344,7 +346,7 @@ public class App {
 
         centraliza.gridx = 0;
         centraliza.gridy = 6;
-        
+
         painel.add(voltar, centraliza);
     
         return painel;
