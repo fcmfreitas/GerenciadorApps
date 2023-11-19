@@ -47,7 +47,7 @@ public class App {
         JMenu menu = new JMenu("Configurações");
         JMenuItem escuro = new JMenuItem("Tema Escuro");
         JMenuItem claro = new JMenuItem("Tema Claro");
-        JMenuItem clAs = new JMenuItem("Clientes e Assinaturas");
+        JMenuItem clAs = new JMenuItem("Listagem");
         escuro.addActionListener(s -> darkMode("escuro"));
         claro.addActionListener(s -> darkMode(""));
         clAs.addActionListener(s -> abrirJanela());
