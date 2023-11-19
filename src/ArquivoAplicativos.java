@@ -1,4 +1,4 @@
-public class DemoImp {
+public class ArquivoAplicativos {
     public static void main(String args[]){
         CatalogoAplicativos  ca = new CatalogoAplicativos();
         ca.loadFromFile();
