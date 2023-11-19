@@ -4,10 +4,10 @@ public class CatalogoAssinaturasViewModel extends AbstractTableModel{
     private CatalogoAssinaturas assinaturas;
     private final String[] nomesDasColunas = {
         "Codigo",
-        "Codigo do App",
-        "CPF do cliente",
-        "Inicio da vigencia",
-        "Fim da vigencia"
+        "Codigo App",
+        "CPF Cliente",
+        "Inicio",
+        "Fim"
     };
 
     public CatalogoAssinaturasViewModel(CatalogoAssinaturas assinaturas){
