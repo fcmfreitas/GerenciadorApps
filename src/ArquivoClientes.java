@@ -1,4 +1,4 @@
-public class DemoImp2 {
+public class ArquivoClientes {
     public static void main(String args[]){
         CatalogoClientes cc = new CatalogoClientes();
         cc.loadFromFile();
