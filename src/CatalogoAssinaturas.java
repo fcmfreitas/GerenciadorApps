@@ -3,10 +3,8 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CatalogoAssinaturas {
@@ -24,43 +22,9 @@ public class CatalogoAssinaturas {
         assinaturas.remove(s);
     }
 
-    public void gerenciarAssinatura(Assinatura s) {
-        if (assinaturaAtiva(s)) {
-            cancelaAssinatura(s);
-        } else {
-            cadastra(s);
-        }
-    }
-
-    private boolean assinaturaAtiva(Assinatura s) {
-        List<Assinatura> sAtiva = assinaturas.stream()
-            .filter(a -> a.getCpfCliente().equals(s.getCpfCliente()) &&
-                    a.getCodigoApp() == s.getCodigoApp() &&
-                    a.getFim().equals("00"))
-            .collect(Collectors.toList());  
-        return !sAtiva.isEmpty();
-    }
-
-    private void cancelaAssinatura(Assinatura s) {
-        for (Assinatura a : assinaturas) {
-            if (a.getCpfCliente().equals(s.getCpfCliente()) &&
-                a.getCodigoApp() == s.getCodigoApp() &&
-                a.getFim().equals("00")) {
-                    a.setFim(getData());
-                    break;
-                }
-        }
-    }
-
     public void removeAssinatura(int codigo){
         assinaturas.removeIf(assinatura -> codigo == assinatura.getCodigo());
         saveToFile();
-    }
-
-
-    private String getData() {
-        LocalDate dataAtual = LocalDate.now();
-        return String.format("%02d", dataAtual.getMonthValue());
     }
 
     public Assinatura getAssinaturaNaLinha(int linha) {
