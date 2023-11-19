@@ -26,7 +26,9 @@ public class App {
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
     private JPanel painelAtual;
+    private JPanel painelSec;
     private JFrame frame;
+    private JFrame frame2;
     private JLabel tituloMenu;
     private boolean temaEscuro = false;
 
@@ -54,13 +56,23 @@ public class App {
         JMenu menu = new JMenu("Configurações");
         JMenuItem escuro = new JMenuItem("Tema Escuro");
         JMenuItem claro = new JMenuItem("Tema Claro");
-        JMenuItem clAS = new JMenuItem("Clientes e Assinaturas");
+        JMenuItem clAs = new JMenuItem("Clientes e Assinaturas");
         escuro.addActionListener(s -> darkMode("escuro"));
         claro.addActionListener(s -> darkMode(""));
+        clAs.addActionListener(s -> {this.frame2 = new JFrame("Listas");
+        this.frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame2.setLayout(new BorderLayout());
+        this.frame2.setSize(500,800);
+        this.painelSec = painelListas();
+        this.frame2.add(painelSec, BorderLayout.CENTER);
+
+        this.frame2.setLocationRelativeTo(null);
+        this.frame2.setVisible(true);
+        });
         config.add(menu);
         menu.add(escuro);
         menu.add(claro);
-        menu.add(clAS);
+        menu.add(clAs);
         frame.setJMenuBar(config);
     }
 
@@ -75,14 +87,17 @@ public class App {
         tituloMenu.setForeground(null);
         temaEscuro = false;
         return false;
+    }
+        
 
+    public JPanel painelListas() {
+        JPanel painel = new JPanel();
+        return painel;
     }
 
     public JPanel painelMenu(){
         
         JPanel painel = new JPanel();
-    
-        //painel01.setBackground(Color.magenta);
 
         painel.setPreferredSize(new Dimension(100,100));
         
