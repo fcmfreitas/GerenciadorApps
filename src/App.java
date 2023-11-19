@@ -70,7 +70,7 @@ public class App {
         treeModel = new DefaultTreeModel(root);
         tree = new JTree(treeModel);
 
-        JFrame frame = new JFrame("Exemplo JTree");
+        JFrame frame = new JFrame("Listas");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new JScrollPane(tree));
         frame.setSize(300, 300);
