@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class App {
     private CatalogoAplicativos catApps;
@@ -31,6 +34,9 @@ public class App {
     private JFrame frame2;
     private JLabel tituloMenu;
     private boolean temaEscuro = false;
+    private DefaultMutableTreeNode root;
+    private DefaultTreeModel treeModel;
+    private JTree tree;
 
     public App(){
         
@@ -59,15 +65,17 @@ public class App {
         JMenuItem clAs = new JMenuItem("Clientes e Assinaturas");
         escuro.addActionListener(s -> darkMode("escuro"));
         claro.addActionListener(s -> darkMode(""));
-        clAs.addActionListener(s -> {this.frame2 = new JFrame("Listas");
-        this.frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame2.setLayout(new BorderLayout());
-        this.frame2.setSize(500,800);
-        this.painelSec = painelListas();
-        this.frame2.add(painelSec, BorderLayout.CENTER);
+        clAs.addActionListener(s -> {
+        root = new DefaultMutableTreeNode("Listas");
+        treeModel = new DefaultTreeModel(root);
+        tree = new JTree(treeModel);
 
-        this.frame2.setLocationRelativeTo(null);
-        this.frame2.setVisible(true);
+        JFrame frame = new JFrame("Exemplo JTree");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new JScrollPane(tree));
+        frame.setSize(300, 300);
+        frame.setVisible(true);
+    
         });
         config.add(menu);
         menu.add(escuro);
@@ -87,12 +95,6 @@ public class App {
         tituloMenu.setForeground(null);
         temaEscuro = false;
         return false;
-    }
-        
-
-    public JPanel painelListas() {
-        JPanel painel = new JPanel();
-        return painel;
     }
 
     public JPanel painelMenu(){
