@@ -36,15 +36,4 @@ public class CatalogoAssinaturasViewModel extends AbstractTableModel{
             default: return (Object)"none";
         }
     }
-
-    public boolean isCellEditable(int row, int col)
-        { 
-            return false;
-        }
-
-    public void setValueAt(Object value, int row, int col) {
-        // Não será acionado porque isCellEditable retorna false para todas as celulas
-        // Se possível é necessário colocar o dado no catálogo de prdutos
-        // Indicar a alteração acionando: fireTableCellUpdated(row, col);
-    }   
 }
