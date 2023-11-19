@@ -10,6 +10,10 @@ import java.util.stream.Stream;
 public class CatalogoAssinaturas {
     private List<Assinatura> assinaturas;
 
+    public List<Assinatura> getLista(){
+        return assinaturas;
+    }
+
     public CatalogoAssinaturas() {
         assinaturas = new ArrayList<>();
     }
