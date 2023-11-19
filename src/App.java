@@ -3,6 +3,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,15 +18,17 @@ public class App {
     private CatalogoAplicativosViewModel catAppsVM;
     private CatalogoClientesViewModel catClientesVM;
     private CatalogoAssinaturasViewModel catAssinaturasVM;
+    private JTextField tfCodigo;
     private JTextField tfCpf;
-    private JTextField tfNome;
-    private JTextField tfEmail;
+    private JTextField tfCodApp;
     private JTextField tfInicio;
     private JTextField tfFim;
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
     private JPanel painelAtual;
     private JFrame frame;
+    private JLabel tituloMenu;
+    private boolean temaEscuro = false;
 
     public App(){
         
@@ -44,6 +49,33 @@ public class App {
 
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
+
+        JMenuBar config = new JMenuBar();
+        JMenu menu = new JMenu("Configurações");
+        JMenuItem escuro = new JMenuItem("Tema Escuro");
+        JMenuItem claro = new JMenuItem("Tema Claro");
+        JMenuItem clAS = new JMenuItem("Clientes e Assinaturas");
+        escuro.addActionListener(s -> darkMode("escuro"));
+        claro.addActionListener(s -> darkMode(""));
+        config.add(menu);
+        menu.add(escuro);
+        menu.add(claro);
+        menu.add(clAS);
+        frame.setJMenuBar(config);
+    }
+
+    public boolean darkMode(String modo) {
+        if(modo.equals("escuro")){
+            painelAtual.setBackground(Color.getHSBColor(0, 0, 0.2f));
+            tituloMenu.setForeground(Color.WHITE);
+            temaEscuro = true;
+            return true;
+        }
+        painelAtual.setBackground(null);
+        tituloMenu.setForeground(null);
+        temaEscuro = false;
+        return false;
+
     }
 
     public JPanel painelMenu(){
@@ -66,9 +98,8 @@ public class App {
         btAssinaturas.addActionListener(b -> trocarPainel(painelAssinaturas()));
 
         //titulo
-        JLabel tituloMenu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
+        tituloMenu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
         
-
         //sistema de grade e centralização dos elementos
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
@@ -100,6 +131,9 @@ public class App {
         this.frame.revalidate();
         this.frame.repaint();
         this.painelAtual = novoPainel;
+        if(temaEscuro == true){
+            darkMode("escuro");
+        }
     }
     
     public JPanel painelApps() {
@@ -117,16 +151,16 @@ public class App {
         // linha1
         JPanel linha1 = new JPanel(); 
         linha1.add(new JLabel("Codigo"));
-        tfCpf = new JTextField(10);
-        linha1.add(tfCpf);
+        tfCodigo = new JTextField(10);
+        linha1.add(tfCodigo);
         linha1.add(new JLabel("Nome"));
-        tfNome = new JTextField(20);
-        linha1.add(tfNome);
+        tfCpf = new JTextField(20);
+        linha1.add(tfCpf);
         // linha2
         JPanel linha2 = new JPanel();
         linha2.add(new JLabel("Licença"));
-        tfEmail = new JTextField(10);
-        linha2.add(tfEmail);
+        tfCodApp = new JTextField(10);
+        linha2.add(tfCodApp);
         linha2.add(new JLabel("Sist. Oper."));
         cbSo = new JComboBox<>(Aplicativo.SO.values());
         linha2.add(cbSo);
@@ -140,7 +174,6 @@ public class App {
         linha3.add(new JLabel("Digite o código para remover:"));
         linha3.add(codigoRemover);
         linha3.add(btRemover);
-        JButton btLista = new JButton("Lista de Assinantes");
 
         btRemover.addActionListener(e -> {
             catApps.removeApp(Integer.parseInt(codigoRemover.getText()));
@@ -177,11 +210,6 @@ public class App {
         centraliza.gridy = 5;
 
         painel.add(voltar, centraliza);
-
-        centraliza.gridx = 0;
-        centraliza.gridy = 6;
-        
-        painel.add(btLista, centraliza);
     
         return painel;
     }
@@ -201,16 +229,16 @@ public class App {
         // linha1
         JPanel linha1 = new JPanel(); 
         linha1.add(new JLabel("CPF"));
-        tfCpf = new JTextField(11);
-        linha1.add(tfCpf);
+        tfCodigo = new JTextField(10);
+        linha1.add(tfCodigo);
         linha1.add(new JLabel("Nome"));
-        tfNome = new JTextField(15);
-        linha1.add(tfNome);
+        tfCpf = new JTextField(15);
+        linha1.add(tfCpf);
         // linha2
         JPanel linha2 = new JPanel();
         linha2.add(new JLabel("Email"));
-        tfEmail = new JTextField(20);
-        linha2.add(tfEmail);
+        tfCodApp = new JTextField(20);
+        linha2.add(tfCodApp);
         btAdd = new JButton("Novo Cliente");
         btAdd.addActionListener(e->adicionaCliente());
         linha2.add(btAdd);
@@ -261,8 +289,9 @@ public class App {
     
         return painel;
     }
-    
+
     public JPanel painelAssinaturas() {
+        
         catAssinaturasVM = new CatalogoAssinaturasViewModel(catAssinaturas);
         JTable tabela = new JTable(catAssinaturasVM);
         tabela.setFillsViewportHeight(true);
@@ -275,43 +304,37 @@ public class App {
         linha0.add(scrollPane);
         // linha1
         JPanel linha1 = new JPanel(); 
-        linha1.add(new JLabel("Codigo"));
-        tfEmail = new JTextField(10);
-        linha1.add(tfEmail);
-        linha1.add(new JLabel("Codigo do App"));
-        tfNome = new JTextField(10);
-        linha1.add(tfNome);
+        linha1.add(new JLabel("Novo Código"));
+        tfCodigo = new JTextField(7);
+        linha1.add(tfCodigo);
+        linha1.add(new JLabel("CPF Cliente"));
+        tfCpf = new JTextField(7);
+        linha1.add(tfCpf);
+        linha1.add(new JLabel("Código do App"));
+        tfCodApp = new JTextField(7);
+        linha1.add(tfCodApp);
         // linha2
         JPanel linha2 = new JPanel();
-        linha2.add(new JLabel("CPF do cliente"));
-        tfCpf = new JTextField(11);
-        linha2.add(tfCpf);
-        // linha 3
-        JPanel linha3 = new JPanel();
-        linha3.add(new JLabel("Inicio da vigencia:"));
-        tfInicio = new JTextField(5);
-        linha3.add(tfInicio);
-        linha3.add(new JLabel("Fim da vigencia"));
-        tfFim = new JTextField(5);
-        linha3.add(tfFim);
-        
-
-        btAdd = new JButton("Nova Assinatura");
+        linha2.add(new JLabel("Inicio da Assinatura (mês)"));
+        tfInicio = new JTextField(6);
+        linha2.add(tfInicio);
+        btAdd = new JButton("Fim");
+        tfFim = new JTextField(6);
+        linha2.add(tfFim);
+        btAdd = new JButton("Adicionar Assinatura");
         btAdd.addActionListener(e->adicionaAssinatura());
-        linha3.add(btAdd);
-        //linha4
-        JPanel linha4 = new JPanel();
+        linha2.add(btAdd);
+        //linha3
+        JPanel linha3 = new JPanel();
         JButton btRemover = new JButton("Cancelar Assinatura");
-        JTextField codigoRemovido = new JTextField(11);
-        JButton voltar = new JButton("Voltar e Salvar");
-        linha4.add(new JLabel("Digite o codigo da assinatura para cancelar:"));
-        linha4.add(codigoRemovido);
-        linha4.add(btRemover);
+        JTextField codigoRemovido = new JTextField(7);
+        linha3.add(new JLabel("Digite o código da assinatura para cancelar:"));
+        linha3.add(codigoRemovido);
+        linha3.add(btRemover);
+        // linha4
 
-        btRemover.addActionListener(e -> {
-            catAssinaturas.removeAssinatura(Integer.parseInt(codigoRemovido.getText()));
-            trocarPainel(painelAssinaturas());
-        });
+        JButton voltar = new JButton("Voltar e Salvar");
+        
         voltar.addActionListener(e -> {
             trocarPainel(painelMenu());
             catAssinaturas.saveToFile();
@@ -331,18 +354,15 @@ public class App {
         painel.add(linha1, centraliza);
 
         centraliza.gridx = 0;
-        centraliza.gridy = 3;
-        painel.add(linha2, centraliza);
 
-        centraliza.gridx = 0;
         centraliza.gridy = 4;
 
-        painel.add(linha3, centraliza);
+        painel.add(linha2, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
 
-        painel.add(linha4, centraliza);
+        painel.add(linha3, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 6;
@@ -351,11 +371,17 @@ public class App {
     
         return painel;
     }
+
+    public JPanel criaPainelAssinaturas() {
+        JPanel painel = new JPanel();
+
+        return painel;
+    }
     
     public void adicionaApp(){
-        int codigo = Integer.parseInt(tfCpf.getText());
-        String nome = tfNome.getText();
-        double preco = Double.parseDouble(tfEmail.getText());
+        int codigo = Integer.parseInt(tfCodigo.getText());
+        String nome = tfCpf.getText();
+        double preco = Double.parseDouble(tfCodApp.getText());
         Aplicativo.SO so = (Aplicativo.SO)cbSo.getSelectedItem();
         Aplicativo novo = new Aplicativo(codigo, nome, preco, so);
         catApps.cadastra(novo);
@@ -363,17 +389,18 @@ public class App {
     }
 
     public void adicionaCliente() {
-        String cpf = tfCpf.getText();
-        String email = tfEmail.getText();
-        String nome = tfNome.getText();
+        String cpf = tfCodigo.getText();
+        String email = tfCodApp.getText();
+        String nome = tfCpf.getText();
         Cliente novo = new Cliente(cpf, email, nome);
         catClientes.cadastra(novo);
         catClientesVM.fireTableDataChanged();
     }
 
     public void adicionaAssinatura() {
-        int codigo = Integer.parseInt(tfEmail.getText());
-        int codigoApp = Integer.parseInt(tfNome.getText());
+
+        int codigo = Integer.parseInt(tfCodigo.getText());
+        int codigoApp = Integer.parseInt(tfCodApp.getText());
         String cpfCliente = tfCpf.getText();
         String inicio = tfInicio.getText();
         String fim = tfFim.getText();
