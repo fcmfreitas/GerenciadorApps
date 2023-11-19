@@ -52,6 +52,12 @@ public class CatalogoAssinaturas {
         }
     }
 
+    public void removeAssinatura(int codigo){
+        assinaturas.removeIf(assinatura -> codigo == assinatura.getCodigo());
+        saveToFile();
+    }
+
+
     private String getData() {
         LocalDate dataAtual = LocalDate.now();
         return String.format("%02d", dataAtual.getMonthValue());
