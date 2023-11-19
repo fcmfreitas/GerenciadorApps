@@ -29,12 +29,12 @@ public class App {
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
     private JPanel painelAtual;
-    private JPanel painelSec;
     private JFrame frame;
-    private JFrame frame2;
     private JLabel tituloMenu;
     private boolean temaEscuro = false;
     private DefaultMutableTreeNode root;
+    private DefaultMutableTreeNode root2;
+    private DefaultMutableTreeNode root3;
     private DefaultTreeModel treeModel;
     private JTree tree;
 
@@ -69,6 +69,9 @@ public class App {
         root = new DefaultMutableTreeNode("Listas");
         treeModel = new DefaultTreeModel(root);
         tree = new JTree(treeModel);
+        root2 = new DefaultMutableTreeNode("Base de Clientes");
+        root.add(root2);
+        
 
         JFrame frame = new JFrame("Listas");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
