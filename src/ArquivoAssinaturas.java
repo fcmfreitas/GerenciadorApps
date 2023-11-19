@@ -1,4 +1,4 @@
-public class DemoImp3 {
+public class ArquivoAssinaturas {
     public static void main(String args[]){
         CatalogoAssinaturas ca = new CatalogoAssinaturas();
         ca.loadFromFile();
