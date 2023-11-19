@@ -7,11 +7,13 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 public class CatalogoClientes {
     private List<Cliente> clientes;
+
+    public List<Cliente> getLista(){
+        return clientes;
+    }
 
     public CatalogoClientes() {
         clientes = new ArrayList<>();
