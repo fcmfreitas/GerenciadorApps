@@ -34,6 +34,11 @@ public class CatalogoClientes {
     }
     */
 
+    public void removeCliente(String cpf){
+        clientes.removeIf(cliente -> cpf.equals(cliente.getCpf()));
+        saveToFile();
+    }
+
     public Cliente getClientesNaLinha(int linha) {
         if (linha >= clientes.size()) {
             return null;

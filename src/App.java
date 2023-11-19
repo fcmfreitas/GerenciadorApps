@@ -17,9 +17,9 @@ public class App {
     private CatalogoAplicativosViewModel catAppsVM;
     private CatalogoClientesViewModel catClientesVM;
     private CatalogoAssinaturasViewModel catAssinaturasVM;
-    private JTextField tfCodigo;
+    private JTextField tfCpf;
     private JTextField tfNome;
-    private JTextField tfPreco;
+    private JTextField tfEmail;
     private JComboBox<Aplicativo.SO> cbSo;
     private JButton btAdd;
     private JPanel painelAtual;
@@ -118,16 +118,16 @@ public class App {
         // linha1
         JPanel linha1 = new JPanel(); 
         linha1.add(new JLabel("Codigo"));
-        tfCodigo = new JTextField(10);
-        linha1.add(tfCodigo);
+        tfCpf = new JTextField(10);
+        linha1.add(tfCpf);
         linha1.add(new JLabel("Nome"));
         tfNome = new JTextField(20);
         linha1.add(tfNome);
         // linha2
         JPanel linha2 = new JPanel();
         linha2.add(new JLabel("Licença"));
-        tfPreco = new JTextField(10);
-        linha2.add(tfPreco);
+        tfEmail = new JTextField(10);
+        linha2.add(tfEmail);
         linha2.add(new JLabel("Sist. Oper."));
         cbSo = new JComboBox<>(Aplicativo.SO.values());
         linha2.add(cbSo);
@@ -151,7 +151,7 @@ public class App {
             trocarPainel(painelMenu());
             catApps.saveToFile();
         });
-
+        
         //configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
@@ -183,73 +183,78 @@ public class App {
     }
 
     public JPanel painelClientes() {
+        
         catClientesVM = new CatalogoClientesViewModel(catClientes);
         JTable tabela = new JTable(catClientesVM);
+        tabela.setFillsViewportHeight(true);
 
         JPanel painel = new JPanel();
-
-        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // linha0
+        JPanel linha0 = new JPanel();
         JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        linha1.add(scrollPane);
+        linha0.add(scrollPane);
+        // linha1
+        JPanel linha1 = new JPanel(); 
+        linha1.add(new JLabel("CPF"));
+        tfCpf = new JTextField(10);
+        linha1.add(tfCpf);
+        linha1.add(new JLabel("Nome"));
+        tfNome = new JTextField(15);
+        linha1.add(tfNome);
+        // linha2
+        JPanel linha2 = new JPanel();
+        linha2.add(new JLabel("Email"));
+        tfEmail = new JTextField(20);
+        linha2.add(tfEmail);
+        btAdd = new JButton("Novo Cliente");
+        btAdd.addActionListener(e->adicionaCliente());
+        linha2.add(btAdd);
+        // linha3
+        JPanel linha3 = new JPanel();
+        JButton btRemover = new JButton("Remover");
+        JTextField cpfRemover = new JTextField(10);
+        JButton voltar = new JButton("Voltar e Salvar");
+        linha3.add(new JLabel("Digite o CPF para remover:"));
+        linha3.add(cpfRemover);
+        linha3.add(btRemover);
 
-
-        JButton btSave = new JButton("Salvar dados");
-        btSave.addActionListener(e->catClientes.saveToFile());
-
-        JPanel clientes = criaPainelClientes();
-
+        btRemover.addActionListener(e -> {
+            catClientes.removeCliente(cpfRemover.getText());
+            trocarPainel(painelClientes());
+        });
+        voltar.addActionListener(e -> {
+            trocarPainel(painelMenu());
+            catClientes.saveToFile();
+        });
+        
+        //configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         centraliza.insets = new Insets(5, 5, 5, 5);
 
         centraliza.gridx = 0;
         centraliza.gridy = 0;
-        painel.add(tabela, centraliza);
-
+        painel.add(linha0, centraliza);
+      
         centraliza.gridx = 0;
-        centraliza.gridy = 1;
+        centraliza.gridy = 2;
         painel.add(linha1, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 3;
-        painel.add(clientes, centraliza);
+        painel.add(linha2, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 4;
-        painel.add(btSave, centraliza);
+
+        painel.add(linha3, centraliza);
 
         centraliza.gridx = 0;
         centraliza.gridy = 5;
-        JButton voltar = new JButton("Voltar");
+
         painel.add(voltar, centraliza);
-        voltar.addActionListener(e -> trocarPainel(painelMenu()));
-
-        return painel;
-
-    }
-
-    public JPanel criaPainelClientes(){
-        JPanel painel = new JPanel();
-        painel.setLayout(new BoxLayout(painel,BoxLayout.PAGE_AXIS));
-
-        JPanel linha1 = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        linha1.add(new JLabel("CPF"));
-        tfCodigo = new JTextField(10);
-        linha1.add(tfCodigo);
-        linha1.add(new JLabel("Email"));
-        tfNome = new JTextField(20);
-        linha1.add(tfNome);
-        JPanel linha2 = new JPanel(new FlowLayout(FlowLayout.LEADING));
-        linha2.add(new JLabel("Nome"));
-        tfPreco = new JTextField(10);
-        linha2.add(tfPreco);
-        btAdd = new JButton("Novo Cliente");
-        btAdd.addActionListener(e->adicionaCliente());
-        linha2.add(btAdd);
-
-        painel.add(linha1);
-        painel.add(linha2);
+    
         return painel;
     }
     
@@ -306,9 +311,9 @@ public class App {
     }
     
     public void adicionaApp(){
-        int codigo = Integer.parseInt(tfCodigo.getText());
+        int codigo = Integer.parseInt(tfCpf.getText());
         String nome = tfNome.getText();
-        double preco = Double.parseDouble(tfPreco.getText());
+        double preco = Double.parseDouble(tfEmail.getText());
         Aplicativo.SO so = (Aplicativo.SO)cbSo.getSelectedItem();
         Aplicativo novo = new Aplicativo(codigo, nome, preco, so);
         catApps.cadastra(novo);
@@ -316,8 +321,8 @@ public class App {
     }
 
     public void adicionaCliente() {
-        String cpf = tfNome.getText();
-        String email = tfNome.getText();
+        String cpf = tfCpf.getText();
+        String email = tfEmail.getText();
         String nome = tfNome.getText();
         Cliente novo = new Cliente(cpf, email, nome);
         catClientes.cadastra(novo);
@@ -325,8 +330,8 @@ public class App {
     }
 
     public void adicionaAssinatura() {
-        int codigo = Integer.parseInt(tfCodigo.getText());
-        int codigoApp = Integer.parseInt(tfCodigo.getText());
+        int codigo = Integer.parseInt(tfCpf.getText());
+        int codigoApp = Integer.parseInt(tfCpf.getText());
         String cpfCliente = tfNome.getText();
         String inicio = tfNome.getText();
         String fim = tfNome.getText();
