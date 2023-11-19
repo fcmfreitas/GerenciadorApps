@@ -30,13 +30,12 @@ public class App {
     private JButton btAdd;
     private JPanel painelAtual;
     private JFrame frame;
+    private JFrame frame2;
     private JLabel tituloMenu;
     private boolean temaEscuro = false;
     private DefaultMutableTreeNode root;
     private DefaultMutableTreeNode root2;
     private DefaultMutableTreeNode root3;
-    private DefaultMutableTreeNode root4;
-    private DefaultMutableTreeNode root5;
     private DefaultTreeModel treeModel;
     private JTree tree;
 
@@ -50,6 +49,7 @@ public class App {
         catClientes.loadFromFile();
         catAssinaturas.loadFromFile();
 
+        this.frame2 = new JFrame("Listas");
         this.frame = new JFrame("Gestão de aplicativos");
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setLayout(new BorderLayout());
@@ -73,19 +73,30 @@ public class App {
         tree = new JTree(treeModel);
         root2 = new DefaultMutableTreeNode("Base de Clientes");
         root.add(root2);
-        root3 = new DefaultMutableTreeNode("Assinaturas");
-        root2.add(root3);
-        root4 = new DefaultMutableTreeNode("Base de Assinaturas");
-        root.add(root4);
-        root5 = new DefaultMutableTreeNode("Assinantes");
-        root4.add(root5);
+        root3 = new DefaultMutableTreeNode("Base de Assinaturas");
+        root.add(root3);
+        
+        for(Cliente cliente : catClientes.getLista()){
+            root2.add(new DefaultMutableTreeNode("CPF | " + cliente.getCpf()+":"));
+            for(Assinatura assinatura : catAssinaturas.getLista()){
+                if(assinatura.getCpfCliente().equals(cliente.getCpf())){
+                    root2.add(new DefaultMutableTreeNode("app " + assinatura.getCodigo()));
+                }
+            }
+        }
+        for(Assinatura assinatura : catAssinaturas.getLista()){
+            root3.add(new DefaultMutableTreeNode("CÓDIGO | " + assinatura.getCodigoApp()+":"));
+            for(Cliente cliente : catClientes.getLista()){
+                if(cliente.getCpf().equals(assinatura.getCpfCliente())){
+                    root3.add(new DefaultMutableTreeNode("cpf " + cliente.getCpf()));
+                }
+            }
+        }
 
-
-        JFrame frame = new JFrame("Listas");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new JScrollPane(tree));
-        frame.setSize(300, 300);
-        frame.setVisible(true);
+        frame2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame2.add(new JScrollPane(tree));
+        frame2.setSize(300, 300);
+        frame2.setVisible(true);
     
         });
         config.add(menu);
