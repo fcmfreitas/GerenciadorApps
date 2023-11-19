@@ -50,7 +50,28 @@ public class App {
         JMenuItem clAs = new JMenuItem("Clientes e Assinaturas");
         escuro.addActionListener(s -> darkMode("escuro"));
         claro.addActionListener(s -> darkMode(""));
-        clAs.addActionListener(s -> {
+        clAs.addActionListener(s -> abrirJanela());
+        config.add(menu);
+        menu.add(escuro);
+        menu.add(claro);
+        menu.add(clAs);
+        frame.setJMenuBar(config);
+    }
+
+    public boolean darkMode(String modo) {
+        if(modo.equals("escuro")){
+            painelAtual.setBackground(Color.getHSBColor(0, 0, 0.2f));
+            tituloMenu.setForeground(Color.WHITE);
+            temaEscuro = true;
+            return true;
+        }
+        painelAtual.setBackground(null);
+        tituloMenu.setForeground(null);
+        temaEscuro = false;
+        return false;
+    }
+
+    public void abrirJanela() {
         root = new DefaultMutableTreeNode("Listas");
         treeModel = new DefaultTreeModel(root);
         tree = new JTree(treeModel);
@@ -83,25 +104,6 @@ public class App {
         frame2.setSize(300, 300);
         frame2.setVisible(true);
     
-        });
-        config.add(menu);
-        menu.add(escuro);
-        menu.add(claro);
-        menu.add(clAs);
-        frame.setJMenuBar(config);
-    }
-
-    public boolean darkMode(String modo) {
-        if(modo.equals("escuro")){
-            painelAtual.setBackground(Color.getHSBColor(0, 0, 0.2f));
-            tituloMenu.setForeground(Color.WHITE);
-            temaEscuro = true;
-            return true;
-        }
-        painelAtual.setBackground(null);
-        tituloMenu.setForeground(null);
-        temaEscuro = false;
-        return false;
     }
 
     public JPanel painelMenu(){
