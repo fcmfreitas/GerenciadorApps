@@ -104,7 +104,7 @@ public class App {
             }
         }
         for (String c : catAssinaturas.geraLista()) {
-            cliente = new DefaultMutableTreeNode("Cliente |" + c);
+            cliente = new DefaultMutableTreeNode("Cliente | " + c);
             root4.add(cliente);
         }
 
