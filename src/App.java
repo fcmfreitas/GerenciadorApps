@@ -207,6 +207,7 @@ public class App {
         cbSo = new JComboBox<>(Aplicativo.SO.values());
         linha2.add(cbSo);
         btAdd = new JButton("Novo App");
+        btAdd.addActionListener(e -> adicionaApp());
         linha2.add(btAdd);
         // linha3
         JPanel linha3 = new JPanel();
@@ -381,6 +382,10 @@ public class App {
         voltar.addActionListener(e -> {
             trocarPainel(painelMenu());
             catAssinaturas.saveToFile();
+        });
+        btRemover.addActionListener(e -> {
+            catAssinaturas.removeAssinatura(Integer.parseInt(codigoRemovido.getText()));
+            trocarPainel(painelAssinaturas());
         });
 
         // configura painel em grade
