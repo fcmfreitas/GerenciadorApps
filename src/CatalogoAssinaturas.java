@@ -39,12 +39,6 @@ public class CatalogoAssinaturas {
         .collect(Collectors.toList());
     }
 
-    public double calculaValor(Aplicativo app) {
-        double valor = app.getPreco();
-        return valor;
-    }
-
-
     public Assinatura getAssinaturaNaLinha(int linha) {
         if (linha >= assinaturas.size()) {
             return null;
