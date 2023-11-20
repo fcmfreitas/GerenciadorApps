@@ -8,10 +8,7 @@ public class CatalogoAplicativosViewModel extends AbstractTableModel {
         "Codigo",
         "Nome",
         "Licença",
-        "Sist. Operacional",
-            "Faturamento total",
-            "Faturamento Android",
-            "Faturamento IOS"
+        "Sist. Operacional", "Faturamento total", "Faturamento IOS", "Faturamento Android"
     };
 
     public CatalogoAplicativosViewModel(CatalogoAplicativos aplicativos, CatalogoAssinaturas assinaturas){
