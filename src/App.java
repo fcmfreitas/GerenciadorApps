@@ -1,6 +1,5 @@
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -18,7 +17,7 @@ public class App {
     private JFrame frame, frame2;
     private JLabel tituloMenu;
     private boolean temaEscuro = false;
-    private DefaultMutableTreeNode root, root2, root3, root4;
+    private DefaultMutableTreeNode root, root2, root3, root4, cliente;
     private DefaultTreeModel treeModel;
     private JTree tree;
 
@@ -70,7 +69,7 @@ public class App {
         temaEscuro = false;
         return false;
     }
-
+        
     public void abrirJanela() {
         root = new DefaultMutableTreeNode("Listas");
         treeModel = new DefaultTreeModel(root);
@@ -81,6 +80,12 @@ public class App {
         root.add(root3);
         root4 = new DefaultMutableTreeNode("Cobranças");
         root.add(root4);
+
+        for (String c : catAssinaturas.geraLista()) {
+            cliente = new DefaultMutableTreeNode(c);
+            root4.add(cliente);
+        }
+
         
         for(Cliente cliente : catClientes.getLista()){
             root2.add(new DefaultMutableTreeNode("CPF | " + cliente.getCpf()+":"));
