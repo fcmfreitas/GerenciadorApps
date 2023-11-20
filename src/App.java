@@ -93,7 +93,7 @@ public class App {
                     }
                 }
             }
-            cliente = new DefaultMutableTreeNode("Cliente  | " + c + "| Valor | " + valor);
+            cliente = new DefaultMutableTreeNode("Cliente | " + c + "| Valor | " + valor);
             root4.add(cliente);
         }
 
