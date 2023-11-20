@@ -103,6 +103,10 @@ public class App {
                 }
             }
         }
+        for (String c : catAssinaturas.geraLista()) {
+            cliente = new DefaultMutableTreeNode("Cliente |" + c);
+            root4.add(cliente);
+        }
 
         frame2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame2.add(new JScrollPane(tree));
