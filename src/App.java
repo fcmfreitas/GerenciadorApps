@@ -120,7 +120,7 @@ public class App {
         JPanel painel = new JPanel();
 
         painel.setPreferredSize(new Dimension(100,100));
-        
+
         //cria o botão
         JButton btApps = new JButton("Gerenciar Apps");
         JButton btClientes = new JButton("Gerenciar Clientes");
@@ -173,10 +173,11 @@ public class App {
     
     public JPanel painelApps() {
         
-        catAppsVM = new CatalogoAplicativosViewModel(catApps);
+        catAppsVM = new CatalogoAplicativosViewModel(catApps, catAssinaturas);
         JTable tabela = new JTable(catAppsVM);
         tabela.setFillsViewportHeight(true);
-
+        tabela.setPreferredScrollableViewportSize(new Dimension( 1000, 500));
+        frame.setSize(1100, 900);
         JPanel painel = new JPanel();
         // linha0
         JPanel linha0 = new JPanel();
@@ -215,7 +216,8 @@ public class App {
             trocarPainel(painelApps());
         });
         voltar.addActionListener(e -> {
-            trocarPainel(painelMenu());
+           frame.setSize(700, 800);
+          trocarPainel(painelMenu());
             catApps.saveToFile();
         });
         
@@ -321,7 +323,7 @@ public class App {
         centraliza.gridy = 5;
 
         painel.add(voltar, centraliza);
-    
+
         return painel;
     }
 
