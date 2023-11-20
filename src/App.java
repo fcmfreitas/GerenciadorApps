@@ -21,12 +21,12 @@ public class App {
     private DefaultTreeModel treeModel;
     private JTree tree;
 
-    public App(){
-        
+    public App() {
+
         catAssinaturas = new CatalogoAssinaturas();
         catApps = new CatalogoAplicativos();
         catClientes = new CatalogoClientes();
-        
+
         catApps.loadFromFile();
         catClientes.loadFromFile();
         catAssinaturas.loadFromFile();
@@ -58,7 +58,7 @@ public class App {
     }
 
     public boolean darkMode(String modo) {
-        if(modo.equals("escuro")){
+        if (modo.equals("escuro")) {
             painelAtual.setBackground(Color.getHSBColor(0, 0, 0.2f));
             tituloMenu.setForeground(Color.WHITE);
             temaEscuro = true;
@@ -69,7 +69,7 @@ public class App {
         temaEscuro = false;
         return false;
     }
-        
+
     public void abrirJanela() {
         root = new DefaultMutableTreeNode("Listas");
         treeModel = new DefaultTreeModel(root);
@@ -82,46 +82,52 @@ public class App {
         root.add(root4);
 
         for (String c : catAssinaturas.geraLista()) {
-            cliente = new DefaultMutableTreeNode(c);
+            double valor = 0;
+            for (Assinatura assinatura : catAssinaturas.getLista()) {
+                if (assinatura.getCpfCliente() == c) {
+                    int codigoApp = assinatura.getCodigoApp();
+                    for (int i = 0; i < catApps.getQtdade(); i++) {
+                        if (catApps.getProdutoNaLinha(i).getCodigo() == codigoApp) {
+                            valor = valor + catApps.getProdutoNaLinha(i).getPreco();
+                        }
+                    }
+                }
+            }
+            cliente = new DefaultMutableTreeNode("Cliente | " + c + "| Valor | " + valor);
             root4.add(cliente);
         }
 
-        
-        for(Cliente cliente : catClientes.getLista()){
-            root2.add(new DefaultMutableTreeNode("CPF | " + cliente.getCpf()+":"));
-            for(Assinatura assinatura : catAssinaturas.getLista()){
-                if(assinatura.getCpfCliente().equals(cliente.getCpf())){
+        for (Cliente cliente : catClientes.getLista()) {
+            root2.add(new DefaultMutableTreeNode("CPF | " + cliente.getCpf() + ":"));
+            for (Assinatura assinatura : catAssinaturas.getLista()) {
+                if (assinatura.getCpfCliente().equals(cliente.getCpf())) {
                     root2.add(new DefaultMutableTreeNode("app " + assinatura.getCodigo()));
                 }
             }
         }
-        for(Assinatura assinatura : catAssinaturas.getLista()){
-            root3.add(new DefaultMutableTreeNode("CÓDIGO | " + assinatura.getCodigoApp()+":"));
-            for(Cliente cliente : catClientes.getLista()){
-                if(cliente.getCpf().equals(assinatura.getCpfCliente())){
+        for (Assinatura assinatura : catAssinaturas.getLista()) {
+            root3.add(new DefaultMutableTreeNode("CÓDIGO | " + assinatura.getCodigoApp() + ":"));
+            for (Cliente cliente : catClientes.getLista()) {
+                if (cliente.getCpf().equals(assinatura.getCpfCliente())) {
                     root3.add(new DefaultMutableTreeNode("cpf " + cliente.getCpf()));
                 }
             }
-        }
-        for (String c : catAssinaturas.geraLista()) {
-            cliente = new DefaultMutableTreeNode("Cliente | " + c);
-            root4.add(cliente);
         }
 
         frame2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame2.add(new JScrollPane(tree));
         frame2.setSize(300, 300);
         frame2.setVisible(true);
-    
+
     }
 
-    public JPanel painelMenu(){
-        
+    public JPanel painelMenu() {
+
         JPanel painel = new JPanel();
 
-        painel.setPreferredSize(new Dimension(100,100));
+        painel.setPreferredSize(new Dimension(100, 100));
 
-        //cria o botão
+        // cria o botão
         JButton btApps = new JButton("Gerenciar Apps");
         JButton btClientes = new JButton("Gerenciar Clientes");
         JButton btAssinaturas = new JButton("Gerenciar Assinaturas");
@@ -132,13 +138,13 @@ public class App {
         btClientes.addActionListener(b -> trocarPainel(painelClientes()));
         btAssinaturas.addActionListener(b -> trocarPainel(painelAssinaturas()));
 
-        //titulo
+        // titulo
         tituloMenu = new JLabel("<html><h1><strong><i>Menu</i></strong></h1><hr></html>");
-        
-        //sistema de grade e centralização dos elementos
+
+        // sistema de grade e centralização dos elementos
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
-        
+
         centraliza.insets = new Insets(15, 15, 15, 15);
 
         centraliza.gridx = 0;
@@ -166,26 +172,26 @@ public class App {
         this.frame.revalidate();
         this.frame.repaint();
         this.painelAtual = novoPainel;
-        if(temaEscuro == true){
+        if (temaEscuro == true) {
             darkMode("escuro");
         }
     }
-    
+
     public JPanel painelApps() {
-        
+
         catAppsVM = new CatalogoAplicativosViewModel(catApps, catAssinaturas);
         JTable tabela = new JTable(catAppsVM);
         tabela.setFillsViewportHeight(true);
-        tabela.setPreferredScrollableViewportSize(new Dimension( 1000, 500));
+        tabela.setPreferredScrollableViewportSize(new Dimension(1000, 500));
         frame.setSize(1100, 900);
         JPanel painel = new JPanel();
         // linha0
         JPanel linha0 = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(tabela, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         linha0.add(scrollPane);
         // linha1
-        JPanel linha1 = new JPanel(); 
+        JPanel linha1 = new JPanel();
         linha1.add(new JLabel("Codigo"));
         tfCodigo = new JTextField(10);
         linha1.add(tfCodigo);
@@ -216,12 +222,12 @@ public class App {
             trocarPainel(painelApps());
         });
         voltar.addActionListener(e -> {
-           frame.setSize(700, 800);
-          trocarPainel(painelMenu());
+            frame.setSize(700, 800);
+            trocarPainel(painelMenu());
             catApps.saveToFile();
         });
-        
-        //configura painel em grade
+
+        // configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         centraliza.insets = new Insets(5, 5, 5, 5);
@@ -229,7 +235,7 @@ public class App {
         centraliza.gridx = 0;
         centraliza.gridy = 0;
         painel.add(linha0, centraliza);
-      
+
         centraliza.gridx = 0;
         centraliza.gridy = 2;
         painel.add(linha1, centraliza);
@@ -247,12 +253,12 @@ public class App {
         centraliza.gridy = 5;
 
         painel.add(voltar, centraliza);
-    
+
         return painel;
     }
 
     public JPanel painelClientes() {
-        
+
         catClientesVM = new CatalogoClientesViewModel(catClientes);
         JTable tabela = new JTable(catClientesVM);
         tabela.setFillsViewportHeight(true);
@@ -260,11 +266,11 @@ public class App {
         JPanel painel = new JPanel();
         // linha0
         JPanel linha0 = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(tabela, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         linha0.add(scrollPane);
         // linha1
-        JPanel linha1 = new JPanel(); 
+        JPanel linha1 = new JPanel();
         linha1.add(new JLabel("CPF"));
         tfCodigo = new JTextField(10);
         linha1.add(tfCodigo);
@@ -277,7 +283,7 @@ public class App {
         tfCodApp = new JTextField(20);
         linha2.add(tfCodApp);
         btAdd = new JButton("Novo Cliente");
-        btAdd.addActionListener(e->adicionaCliente());
+        btAdd.addActionListener(e -> adicionaCliente());
         linha2.add(btAdd);
         // linha3
         JPanel linha3 = new JPanel();
@@ -296,8 +302,8 @@ public class App {
             trocarPainel(painelMenu());
             catClientes.saveToFile();
         });
-        
-        //configura painel em grade
+
+        // configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         centraliza.insets = new Insets(5, 5, 5, 5);
@@ -305,7 +311,7 @@ public class App {
         centraliza.gridx = 0;
         centraliza.gridy = 0;
         painel.add(linha0, centraliza);
-      
+
         centraliza.gridx = 0;
         centraliza.gridy = 2;
         painel.add(linha1, centraliza);
@@ -328,7 +334,7 @@ public class App {
     }
 
     public JPanel painelAssinaturas() {
-        
+
         catAssinaturasVM = new CatalogoAssinaturasViewModel(catAssinaturas);
         JTable tabela = new JTable(catAssinaturasVM);
         tabela.setFillsViewportHeight(true);
@@ -336,11 +342,11 @@ public class App {
         JPanel painel = new JPanel();
         // linha0
         JPanel linha0 = new JPanel();
-        JScrollPane scrollPane = new JScrollPane(tabela,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JScrollPane scrollPane = new JScrollPane(tabela, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         linha0.add(scrollPane);
         // linha1
-        JPanel linha1 = new JPanel(); 
+        JPanel linha1 = new JPanel();
         linha1.add(new JLabel("Novo Código"));
         tfCodigo = new JTextField(7);
         linha1.add(tfCodigo);
@@ -359,9 +365,9 @@ public class App {
         tfFim = new JTextField(6);
         linha2.add(tfFim);
         btAdd = new JButton("Adicionar Assinatura");
-        btAdd.addActionListener(e->adicionaAssinatura());
+        btAdd.addActionListener(e -> adicionaAssinatura());
         linha2.add(btAdd);
-        //linha3
+        // linha3
         JPanel linha3 = new JPanel();
         JButton btRemover = new JButton("Cancelar Assinatura");
         JTextField codigoRemovido = new JTextField(7);
@@ -371,13 +377,13 @@ public class App {
         // linha4
 
         JButton voltar = new JButton("Voltar e Salvar");
-        
+
         voltar.addActionListener(e -> {
             trocarPainel(painelMenu());
             catAssinaturas.saveToFile();
         });
-        
-        //configura painel em grade
+
+        // configura painel em grade
         painel.setLayout(new GridBagLayout());
         GridBagConstraints centraliza = new GridBagConstraints();
         centraliza.insets = new Insets(5, 5, 5, 5);
@@ -385,7 +391,7 @@ public class App {
         centraliza.gridx = 0;
         centraliza.gridy = 0;
         painel.add(linha0, centraliza);
-      
+
         centraliza.gridx = 0;
         centraliza.gridy = 2;
         painel.add(linha1, centraliza);
@@ -405,7 +411,7 @@ public class App {
         centraliza.gridy = 6;
 
         painel.add(voltar, centraliza);
-    
+
         return painel;
     }
 
@@ -414,12 +420,12 @@ public class App {
 
         return painel;
     }
-    
-    public void adicionaApp(){
+
+    public void adicionaApp() {
         int codigo = Integer.parseInt(tfCodigo.getText());
         String nome = tfCpf.getText();
         double preco = Double.parseDouble(tfCodApp.getText());
-        Aplicativo.SO so = (Aplicativo.SO)cbSo.getSelectedItem();
+        Aplicativo.SO so = (Aplicativo.SO) cbSo.getSelectedItem();
         Aplicativo novo = new Aplicativo(codigo, nome, preco, so);
         catApps.cadastra(novo);
         catAppsVM.fireTableDataChanged();
@@ -445,6 +451,7 @@ public class App {
         catAssinaturas.cadastra(nova);
         catAssinaturasVM.fireTableDataChanged();
     }
+
     public static void main(String[] args) throws Exception {
         App app = new App();
     }

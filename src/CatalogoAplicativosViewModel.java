@@ -1,5 +1,4 @@
 import javax.swing.table.AbstractTableModel;
-import java.util.Date;
 
 public class CatalogoAplicativosViewModel extends AbstractTableModel {
     private CatalogoAplicativos aplicativos;
@@ -28,31 +27,11 @@ public class CatalogoAplicativosViewModel extends AbstractTableModel {
         return nomesDasColunas.length;
     }
 
-    private boolean checarAssinaturaVigente(int mesFim, int anoFim, int mesAtual, int anoAtual) {
-        if (anoFim < anoAtual) {
-            return false;
-        } else if (anoFim > anoAtual) {
-            return true;
-        } else if (anoFim == anoAtual) {
-            if (mesFim >= mesAtual)
-                return true;
-            else
-                return false;
-        }
-        return false;
-    }
-
     private double calcularFaturamentoAndroid(int codigoApp, double price, Aplicativo.SO so) {
         double faturamento = 0;
-        Date data = new Date();
-        int mesAtual = data.getMonth() + 1;
-        int anoAtual = (data.getYear() + 1900) % 100;
         for (Assinatura assAux : assinaturas.getLista()) {
             if (assAux.getCodigoApp() == codigoApp) {
-                String[] dataCompletaFim = assAux.getFim().split("/");
-                int mesFim = Integer.parseInt(dataCompletaFim[0]);
-                int anoFim = Integer.parseInt(dataCompletaFim[1]);
-                if (assAux.getFim().equals("00/00") || checarAssinaturaVigente(mesFim, anoFim, mesAtual, anoAtual)) {
+                if (assAux.getFim().equals("00/00")) {
                     if (so == Aplicativo.SO.Android)
                         faturamento = faturamento + price;
                 }
@@ -63,15 +42,9 @@ public class CatalogoAplicativosViewModel extends AbstractTableModel {
 
     private double calculaFaturamentoIOS(int codigoApp, double price, Aplicativo.SO so) {
         double faturamento = 0;
-        Date data = new Date();
-        int mesAtual = data.getMonth() + 1;
-        int anoAtual = (data.getYear() + 1900) % 100;
         for (Assinatura assAux : assinaturas.getLista()) {
             if (assAux.getCodigoApp() == codigoApp) {
-                String[] dataCompletaFim = assAux.getFim().split("/");
-                int mesFim = Integer.parseInt(dataCompletaFim[0]);
-                int anoFim = Integer.parseInt(dataCompletaFim[1]);
-                if (assAux.getFim().equals("00/00") || checarAssinaturaVigente(mesFim, anoFim, mesAtual, anoAtual)) {
+                if (assAux.getFim().equals("00/00")) {
                     if (so == Aplicativo.SO.IOS)
                         faturamento = faturamento + price;
                 }
@@ -82,15 +55,9 @@ public class CatalogoAplicativosViewModel extends AbstractTableModel {
 
     private double calculaFaturamentoTotal(int codigoApp, double price) {
         double faturamento = 0;
-        Date data = new Date();
-        int mesAtual = data.getMonth() + 1;
-        int anoAtual = (data.getYear() + 1900) % 100;
         for (Assinatura assAux : assinaturas.getLista()) {
             if (assAux.getCodigoApp() == codigoApp) {
-                String[] dataCompletaFim = assAux.getFim().split("/");
-                int mesFim = Integer.parseInt(dataCompletaFim[0]);
-                int anoFim = Integer.parseInt(dataCompletaFim[1]);
-                if (assAux.getFim().equals("00/00") || checarAssinaturaVigente(mesFim, anoFim, mesAtual, anoAtual)) {
+                if (assAux.getFim().equals("00/00")) {
                     faturamento = faturamento + price;
                 }
             }
